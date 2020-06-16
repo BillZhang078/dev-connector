@@ -1,3 +1,4 @@
 {
-    "mongoURI": "mongodb+srv://Peng:957811@cluster0-puxpc.mongodb.net/test?retryWrites=true&w=majority"
+    "mongoURI": "mongodb+srv://Peng:957811@cluster0-puxpc.mongodb.net/test?retryWrites=true&w=majority",
+    "jwtSecret": "mysecret"
 }
