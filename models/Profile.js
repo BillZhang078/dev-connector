@@ -13,7 +13,7 @@ const ProfileSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        reuqired:true
+        required:true
     },
     skills: {
         type:[String]
@@ -26,5 +26,38 @@ const ProfileSchema = new mongoose.Schema({
     },
     githubusername: {
         type:String
+    },
+    experience: {
+        title: {
+            type: String,
+            required:true
+        },
+        company: {
+            type: String,
+            required:true
+        },
+        location: {
+            type:String
+        },
+        from: {
+            type: Date,
+            required:true
+        },
+        to: {
+            type: Date,
+            required:true
+        },
+        current: {
+            type: Boolean,
+            default:false
+        },
+        description: {
+            type:String
+        }
+    },
+    data: {
+        type: Date,
+        default:Date.now
     }
 })
+module.exports = Profile = mongoose.model('profile', ProfileSchema);
