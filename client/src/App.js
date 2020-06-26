@@ -4,10 +4,13 @@ import Navbar from './components/layouts/navbar';
 import Landing from './components/layouts/landing';
 import Login from './components/Login';
 import Register from './components/Register'
+import { Provider } from 'react-redux';
+import store from './store'
 import './App.css';
 
 function App() {
   return (
+    <Provider store={store}>
     <Router>
     <div className="App">
       <Navbar />
@@ -19,7 +22,8 @@ function App() {
           </Switch>
       </div>
       </div>
-    </Router>
+      </Router>
+      </Provider>
   );
 }
 
