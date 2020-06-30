@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import API from '../API/api';
 import axios from 'axios';
+import { connect } from 'react-redux';
+import { setAlert } from '../actions/alert';
+import { register } from '../actions/auth'
 
-const Register = () => {
+const Register = ({ setAlert,register }) => {
   const [registerData, setRegisterData] = useState({
     name: '',
     email: '',
@@ -19,31 +22,17 @@ const Register = () => {
     });
   };
 
-  console.log(registerData);
 
   const onSubmit = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      console.log('wrong');
+     setAlert('Somthing wrong with your passowrd', 'danger');
     }
-    const user = {
-      name,
-      email,
-      password,
-    };
-    const body = JSON.stringify(user);
-    try {
-      const config = {
-        headers: {
-          'Content-Type': 'application/json ',
-        },
-      };
-
-      const response = await axios.post('/api/users/register', body, config);
-      console.log(response);
-    } catch (error) {
-      console.log(error);
+    else {
+      register(registerData);
+      console.log('I am here')
     }
+    
   };
 
   return (
@@ -108,4 +97,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default connect(null, { setAlert,register })(Register);
