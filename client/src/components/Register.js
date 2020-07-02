@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import API from '../API/api';
-import axios from 'axios';
 import { connect } from 'react-redux';
 import { setAlert } from '../actions/alert';
 import { register } from '../actions/auth'
