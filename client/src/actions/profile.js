@@ -14,7 +14,7 @@ export const createProfile = () => async dispatch => {
         dispatch({
             type: PROFILE_ERROR,
             payload: {
-                msg: error.response.message,
+                msg: error.response.statusText,
                 status:error.response.status
             }
         })

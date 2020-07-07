@@ -1,22 +1,25 @@
-import React,{useEffect} from 'react'
+import React,{useEffect, Profiler} from 'react'
 import { connect } from 'react-redux';
 import { createProfile } from '../../actions/profile';
 import profileReducer from '../../reducers/profile';
 import { createStore } from 'redux';
-const DashBoard = ({createProfile, profile:{profile, loading}}) => {
-
+const DashBoard = ({createProfile, Profile:{profile, loading}}) => {
+    console.log(profile)
     useEffect(() => {
         createProfile();   
     },[])
     return (
-        <div>
-            <h2>DashBoard</h2>
-        </div>
+        
+    <div>
+        <h2>{profile.name}</h2>
+    </div >
+            
+        
     )
 }
 
 const mapStateToProps = state => ({
-    profile:state.profile
+    Profile:state.profile
 })
 
 export default connect(mapStateToProps,{createProfile})(DashBoard);

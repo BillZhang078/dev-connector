@@ -1,18 +1,21 @@
 const express = require('express');
 const router = express.Router();
+const auth = require('../../middleware/auth')
 const Profile = require('../../models/Profile')
 const User = require("../../models/User")
 const { check, validationResult } = require('express-validator')
 // @route    GET api/profile
 // @desc     Test Route
 // @acess    private
-router.get('/me', async (req, res) => {
+router.get('/me', auth, async (req, res) => {
     try {
-        const profile = await (await Profile.findOne({ user: req.user.id })).populated('user', ['name', 'avatar']);
+        const profile = await Profile.findOne({ user: req.user.id }).populate('user', ['name', 'avatar']);
         if (!profile) {
-            res.status(400).json({msg:'There is no profile find for this user'})
+            res.status(400).json({ msg: 'There is no profile find for this user' })
         }
-        res.json(profile);
+        else {
+            res.json(profile);
+        }
     } catch (err) {
         console.error(err.message)
         res.status(500).send("server error")
@@ -23,13 +26,13 @@ router.get('/me', async (req, res) => {
 // @desc     Save and update Route
 // @acess    private
 
-router.post('/', [check('status', 'status cannot be empty').not().isEmpty(),
-    check('skills', 'skills cannot be empty').not().isEmpty()], async (req, res) => {
+router.post('/', [auth,[check('status', 'status cannot be empty').not().isEmpty(),
+    check('skills', 'skills cannot be empty').not().isEmpty()]], async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
            return res.status(400).json({ errors: errors.array()})
         }
-        const { company, location, status, skills, website, bio, githubusername, experience } = req.body;
+        const { company, location, status, skills, website, bio, githubusername, youtube, facebook, twitter, instagram, linkedin } = req.body;
         
         // Build Profile Object
         const profileField = {};
@@ -43,6 +46,13 @@ router.post('/', [check('status', 'status cannot be empty').not().isEmpty(),
         if (bio) profileField.bio = bio;
         if (githubusername) profileField.githubusername = githubusername;
         if (experience) profileField.experience = experience;
+
+        profileField.social = {};
+        if (youtube) profileField.social.youtube = youtube;
+        if (facebook) profileField.social.facebook = facebook;
+        if (twitter) profileField.social.twitter = twitter;
+        if (instagram) profileField.social.instagram = instagram;
+        if (linkedin) profileField.social.linkedin = linkedin;
 
         try {
 
@@ -68,7 +78,7 @@ router.post('/', [check('status', 'status cannot be empty').not().isEmpty(),
 // @desc     Get All Profiles
 // @acess    private
 
-router.get('/profiles', async (req, res)=>{
+router.get('/profiles', auth, async (req, res)=>{
     
     try {
 
@@ -144,5 +154,61 @@ router.delete('/', async (req, res)=>{
 //         console.log(error.message);
 //     }
 // })
+
+// @route    put api/profiles/experience
+// @desc     Add profile experience
+// @acess    private
+
+router.put('/experience', [auth, 
+    [check('title', 'Title is required').not().isEmpty,
+    check('from', 'From is required').not().isEmpty(),
+    check('company', 'company is required').not().isEmpty()]], async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({errors:errors.array()})
+        }
+
+        const { title, company, from, to, current, description } = req.body;
+        const newExp = {
+            title, company, from, to, current, description
+        }
+
+        try {
+
+            const profile = await Profile.findOne({ user: req.user.id });
+            profile.experience.unshift(newExp);
+            await profile.save();
+            res.json(profile);
+            
+        } catch (err) {
+            console.error(err.message);
+            res.status(500).send('server error')
+        }
+
+    })
+
+// @route    delete api/profiles/experience/:exp_id
+// @desc     delete profile experience
+// @acess    private
+
+router.delete('/experience/:exp_id', auth, async (req, res) => {
+    
+    try {
+
+        const profile = await Profile.findOne({ user: req.user.id });
+        const id = profile.experience.map(item => item.id).indexOf(req.params.exp_id);
+        profile.experience.splice(id, 1);
+        await pofile.save();
+
+        
+    } catch (err) {
+        console.error(eerr.message);
+        res.status(500).send('server error')
+    }
+})
+
+// @route    add api/profiles/education
+// @desc     add profile education
+// @acess    private
 
 module.exports = router;
