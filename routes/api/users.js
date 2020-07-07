@@ -54,7 +54,7 @@ router.post(
     user.password = await bcrypt.hash(password, salt);
 
     await user.save(); //this will return a promise
-
+    console.log('Im bill')
     const payload = {
       user: {
         id: user.id,
@@ -66,12 +66,11 @@ router.post(
       { expiresIn: 360000 },
       (err, token) => {
         if (err) throw err;
-        res.json({ token });
+        console.log(token)
+        res.json({ token } );
       }
     );
-    const myPassword =
-      //Return jsonwebtoken
-      res.send('user route');
+   
   }
 );
 
@@ -135,9 +134,7 @@ router.post(
         res.json({ token });
       }
     );
-    const myPassword =
-      //Return jsonwebtoken
-      res.send('user route');
+    
   }
 );
 

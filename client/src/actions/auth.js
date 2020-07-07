@@ -1,9 +1,10 @@
-import { REGISTER_SUCCESS, REGISTER_FAIL, LOADED_FAIL, LOADED_USER, LOGIN_SUCCESS,LOGIN_FAIL } from './types'
+import { REGISTER_SUCCESS, REGISTER_FAIL, LOADED_FAIL, LOADED_USER, LOGIN_SUCCESS,LOGIN_FAIL, LOG_OUT } from './types'
 import { setAlert } from './alert'
 import axios from 'axios'
 import {setAuthToken} from '../util/index'
 
 export const register = ({ name, email, password }) => async dispatch => {
+   
     const user = {
       name,
       email,
@@ -38,20 +39,23 @@ export const register = ({ name, email, password }) => async dispatch => {
 }
 
 export const login = ({ email, password }) => async dispatch => {
+    console.log('ready')
+    const body = JSON.stringify({
+        email,
+        password
+    })
 
     try {
         const config = {
             headers: {
-                'content-type': "application/json"
-            }
-        }
+              'Content-Type': 'application/json ',
+            },
+          };
 
-        const body = JSON.stringify({
-            email,
-            password
-        })
-
+      
+       
         const res = await axios.post('/api/auth', body, config);
+       
         dispatch({
             type: LOGIN_SUCCESS,
             payload:res.data
@@ -59,6 +63,7 @@ export const login = ({ email, password }) => async dispatch => {
   
         
     } catch (err) {
+        console.log('Not ready')
         dispatch({
             type:LOGIN_FAIL
         })
@@ -83,4 +88,10 @@ export const loadUser = ()=> async dispatch => {
         })
     }
 
+}
+
+export const logout= () => dispatch=>{
+    dispatch({
+        type:LOG_OUT
+    })
 }

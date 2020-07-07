@@ -1,12 +1,12 @@
 import React,{useState} from 'react'
 import { connect } from 'react-redux';
 import { setAlert } from '../actions/alert'
-import {login} from '../actions/auth'
+import { login, register } from '../actions/auth'
+import { Redirect } from 'react-router-dom'
 
-const Login = (props) => {
+const Login = ({ login,isAuthenticated }) => {
 
   const [userData, setUserData] = useState({ email: '', password: '' });
-
   const { email, password } = userData;
 
   const handleUserData = e => {
@@ -18,12 +18,17 @@ const Login = (props) => {
       })
   }
 
-  const handleSubmit = e => {
-    console.log('dadad')
+  const onSubmit = async (e) => {
     e.preventDefault();
-      login(userData);
- 
+   
+    login(userData);
+    console.log(userData)
   }
+
+  if (isAuthenticated) {
+    return <Redirect to='/dashboard' />
+  }
+
  
     return (
         <section className="container">
@@ -32,7 +37,7 @@ const Login = (props) => {
       </div> */}
       <h1 className="large text-primary">Sign In</h1>
       <p className="lead"><i className="fas fa-user"></i> Sign into Your Account</p>
-      <form className="form" action="dashboard.html" onSubmit={e=>handleSubmit(e)}>
+      <form className="form" action="dashboard.html" onSubmit={e=>onSubmit(e)}>
         <div className="form-group">
           <input
             type="email"
@@ -61,4 +66,8 @@ const Login = (props) => {
     )
 }
 
-export default connect(null,{setAlert,login})(Login);
+const mapStateToProps = state => {
+  return { isAuthenticated: state.auth.isAuthenticated };
+}
+
+export default connect(mapStateToProps, { setAlert,login })(Login);

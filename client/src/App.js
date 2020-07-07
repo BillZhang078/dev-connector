@@ -4,6 +4,8 @@ import Navbar from './components/layouts/navbar';
 import Landing from './components/layouts/landing';
 import Login from './components/Login';
 import Register from './components/Register'
+import DashBoard from './components/DashBoard/dashboard'
+import PrivateRoute from './components/Routing/PrivateRoute'
 import { Provider } from 'react-redux';
 import store from './store'
 import Alert from './components/layouts/alert'
@@ -32,7 +34,8 @@ function App() {
         <Alert/>
         <Switch>
           <Route path='/register' component={Register} />
-          <Route path='/login' component={Login}/>
+          <Route path='/login' component={Login} />
+          <PrivateRoute path='/dashboard' component={DashBoard} />
           </Switch>
       </div>
       </div>

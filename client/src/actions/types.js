@@ -6,6 +6,8 @@ export const LOADED_USER = "LOADED_USER";
 export const LOADED_FAIL = 'LOADED_FAIL';
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAIL = 'LOGIN_FAIL';
-
+export const LOG_OUT = 'LOG_OUT';
+export const CREATE_PROFILE = 'CREATE_PROFILE';
+export const PROFILE_ERROR = 'PROFILE_ERROR';
 
 

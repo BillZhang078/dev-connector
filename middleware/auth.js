@@ -1,4 +1,4 @@
-const jwt = require('jwt');
+const jwt = require('jsonwebtoken');
 const config = require('config');
 
 module.exports = function (req, res, next) {
@@ -16,6 +16,6 @@ module.exports = function (req, res, next) {
         next()
 
     } catch(err){
-        res.status(401).json({msg:"Token is not valid"})
+      res.status(401).json({msg:"Token is not valid"})
     }
 }

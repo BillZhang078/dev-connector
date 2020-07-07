@@ -1,4 +1,4 @@
-import { REGISTER_SUCCESS, REGISTER_FAIL, LOADED_USER, LOADED_FAIL, LOGIN_FAIL, LOGIN_SUCCESS} from '../actions/types'
+import { REGISTER_SUCCESS, REGISTER_FAIL, LOADED_USER, LOADED_FAIL, LOGIN_FAIL, LOGIN_SUCCESS, LOG_OUT} from '../actions/types'
 
 const initState = {
     token: localStorage.getItem('token'),
@@ -32,6 +32,7 @@ export default function (state = initState, action) {
         case REGISTER_FAIL:
         case LOADED_FAIL:
         case LOGIN_FAIL:
+        case LOG_OUT:
             localStorage.removeItem('token')
             return {
                 ...state,
