@@ -1,4 +1,6 @@
 import React, { useState, Fragment } from 'react'
+import { connect } from 'react-redux';
+import {postProfile} from '../../actions/profile'
 
 
 const CreateProfile = () => {
@@ -27,6 +29,11 @@ const CreateProfile = () => {
             ...previousState,
             [name]:value
         }))
+    }
+
+    const handlePostProfile = async e => {
+        e.preventDefault();
+        postProfile(profile);
     }
 
 
@@ -142,4 +149,4 @@ const CreateProfile = () => {
 }
 
 
-export default CreateProfile;
+export default connect(null,{postProfile})(CreateProfile);

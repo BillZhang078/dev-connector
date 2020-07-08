@@ -13,6 +13,7 @@ const profileReducer = (state = initState, action) => {
     switch(type){
 
         case CREATE_PROFILE:
+        case POST_PROFILE:
             return {
                 ...state,
                 profile: payload,

@@ -30,6 +30,30 @@ export const postProfile = (profile) => async dispatch => {
             'Content-Type':application/json
         }
     }
+
+    const body = profile;
+
+    try {
+
+        const response = axios.post('/api/profile', body, config);
+        dispatch({
+            type: POST_PROFILE,
+            payload:response.data
+        })
+
+
+        
+    } catch (err) {
+        dispatch({
+            type: PROFILE_ERROR,
+            payload: {
+                msg: error.response.statusText,
+                status:error.response.status
+            }
+        })
+    }
+
+
 }
 
 export const clearProfile = () => dispatch => {
