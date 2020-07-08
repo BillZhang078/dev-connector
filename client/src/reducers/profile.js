@@ -1,7 +1,7 @@
-import {CREATE_PROFILE, PROFILE_ERROR} from '../actions/types'
+import {CREATE_PROFILE, PROFILE_ERROR, CLEAR_PROFILE} from '../actions/types'
 
 const initState = {
-    profile: {},
+    profile: null,
     profiles: [],
     loading: true,
     error:null
@@ -23,6 +23,11 @@ const profileReducer = (state = initState, action) => {
                 ...state,
                 error: payload,
                 loading:false
+            }
+        case CLEAR_PROFILE:
+            return {
+                ...state,
+                profile:null
             }
         default:
             return state

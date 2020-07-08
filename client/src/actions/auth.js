@@ -2,7 +2,7 @@ import { REGISTER_SUCCESS, REGISTER_FAIL, LOADED_FAIL, LOADED_USER, LOGIN_SUCCES
 import { setAlert } from './alert'
 import axios from 'axios'
 import {setAuthToken} from '../util/index'
-
+import {clearProfile} from './profile'
 export const register = ({ name, email, password }) => async dispatch => {
    
     const user = {
@@ -51,8 +51,6 @@ export const login = ({ email, password }) => async dispatch => {
               'Content-Type': 'application/json ',
             },
           };
-
-      
        
         const res = await axios.post('/api/auth', body, config);
        
@@ -60,7 +58,7 @@ export const login = ({ email, password }) => async dispatch => {
             type: LOGIN_SUCCESS,
             payload:res.data
         })
-  
+ 
         
     } catch (err) {
         console.log('Not ready')
@@ -77,7 +75,7 @@ export const loadUser = ()=> async dispatch => {
     }
     try {
         const res = await axios.get('/api/auth');
-        return dispatch({
+        dispatch({
             type: LOADED_USER,
             payload: res.data
         })
@@ -94,4 +92,5 @@ export const logout= () => dispatch=>{
     dispatch({
         type:LOG_OUT
     })
+    dispatch(clearProfile());
 }

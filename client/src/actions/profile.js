@@ -1,4 +1,4 @@
-import { CREATE_PROFILE, PROFILE_ERROR } from './types'
+import { CREATE_PROFILE, PROFILE_ERROR, CLEAR_PROFILE } from './types'
 import axios from 'axios';
 
 export const createProfile = () => async dispatch => {
@@ -19,6 +19,11 @@ export const createProfile = () => async dispatch => {
             }
         })
     }
-    
 
+}
+
+export const clearProfile = () => dispatch => {
+    dispatch({
+        type:CLEAR_PROFILE
+    })
 }

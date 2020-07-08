@@ -12,7 +12,7 @@ const { check, validationResult } = require('express-validator');
 router.get('/',auth,async (req, res) => {
     try {
         // const profile = await
-        const user = await User.findById(req.user.id).select('password');// ignore passoword
+        const user = await User.findById(req.user.id).select('name');// ignore passoword
         res.json(user);
     } catch (err) {
         console.error(err.message)
@@ -54,9 +54,9 @@ router.post('/', [check('email', "email is required").not().isEmpty(),
         payload,
         config.get('jwtSecret'),
         { expiresIn: 360000 },
-        (err, token) => {
-          if (err) throw err;
-          res.json({ token });
+          (err, token) => {
+              if (err) throw err;
+              res.json({ token,user });
         }
       );
         

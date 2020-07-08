@@ -13,17 +13,14 @@ import { setAuthToken } from './util/index'
 import { loadUser } from './actions/auth'
 import './App.css';
 
-if (localStorage.token) {
-    console.log('here')
-    setAuthToken(localStorage.token)
-}
 function App() {
 
   useEffect(() => {
-    
+    console.log('dasdas')
+    setAuthToken(localStorage.token)
     store.dispatch(loadUser());
-    
   },[])
+  
   return (
     <Provider store={store}>
     <Router>
