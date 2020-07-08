@@ -5,6 +5,7 @@ import Landing from './components/layouts/landing';
 import Login from './components/Login';
 import Register from './components/Register'
 import DashBoard from './components/DashBoard/dashboard'
+import CreateProfile from './components/profile-forms/CreateProfile'
 import PrivateRoute from './components/Routing/PrivateRoute'
 import { Provider } from 'react-redux';
 import store from './store'
@@ -12,6 +13,7 @@ import Alert from './components/layouts/alert'
 import { setAuthToken } from './util/index'
 import { loadUser } from './actions/auth'
 import './App.css';
+import { createProfile } from './actions/profile';
 
 function App() {
 
@@ -33,6 +35,7 @@ function App() {
           <Route path='/register' component={Register} />
           <Route path='/login' component={Login} />
           <PrivateRoute path='/dashboard' component={DashBoard} />
+          <PrivateRoute path='/createProfile' component={CreateProfile} />
           </Switch>
       </div>
       </div>

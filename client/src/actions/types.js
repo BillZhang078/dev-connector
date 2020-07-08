@@ -9,6 +9,7 @@ export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const LOG_OUT = 'LOG_OUT';
 export const CREATE_PROFILE = 'CREATE_PROFILE';
 export const PROFILE_ERROR = 'PROFILE_ERROR';
-export const CLEAR_PROFILE = 'CLEAR_PROFILE'
+export const CLEAR_PROFILE = 'CLEAR_PROFILE';
+export const POST_PROFILE = 'POST_PROFILE';
 
 

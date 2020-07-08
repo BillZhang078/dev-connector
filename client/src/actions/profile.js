@@ -1,5 +1,6 @@
-import { CREATE_PROFILE, PROFILE_ERROR, CLEAR_PROFILE } from './types'
+import { CREATE_PROFILE, PROFILE_ERROR, CLEAR_PROFILE, POST_PROFILE} from './types'
 import axios from 'axios';
+import { application, json } from 'express';
 
 export const createProfile = () => async dispatch => {
     try {
@@ -20,6 +21,15 @@ export const createProfile = () => async dispatch => {
         })
     }
 
+}
+
+export const postProfile = (profile) => async dispatch => {
+    
+    const config = {
+        headers: {
+            'Content-Type':application/json
+        }
+    }
 }
 
 export const clearProfile = () => dispatch => {
