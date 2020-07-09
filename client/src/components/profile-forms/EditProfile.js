@@ -2,13 +2,12 @@ import React, { useState, useEffect, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { postProfile, createProfile } from '../../actions/profile';
-import { applyMiddleware } from 'redux';
-import { loadUser } from '../../actions/auth';
 
-const EditProfile = ({ postProfile, profile:{loading,profile} }) => {
+
+const EditProfile = ({ postProfile, Profile:{loading,profile} }) => {
   const [SocialDisplay, toggleSocialDisplay] = useState(false);
   const history = useHistory();
-  const [profile, setProfile] = useState({
+  const [profiles, setProfile] = useState({
     company: '',
     status: '',
     website: '',
@@ -36,7 +35,7 @@ const EditProfile = ({ postProfile, profile:{loading,profile} }) => {
     youtube,
     linkedin,
     instagram,
-  } = profile;
+  } = profiles;
 
   const handleProfileChange = (e) => {
     const { name, value } = e.target;
@@ -48,30 +47,33 @@ const EditProfile = ({ postProfile, profile:{loading,profile} }) => {
 
   const handlePostProfile = async (e) => {
       e.preventDefault();
-      postProfile(profile,history);
+      postProfile(profiles,history);
   };
     
     useEffect(() => {
         createProfile();   
         setProfile({
-            company: loading|| !profile.company ? '' : profile.company,
-            status: loading|| !profile.status ? '' : profile.status,
-            website: loading|| !profile.website ? '' : profile.website,
+            company: loading || !profile.company ? '' : profile.company,
+            status: loading || !profile.status ? '' : profile.status,
+            website: loading || !profile.website ? '' : profile.website,
             location: loading || !profile.location ? '' : profile.location,
-            skills: loading|| !profile.skills ? '' : profile.skills,
-            bio: loading|| !profile.bio ? '' : profile.bio,
-            githubusername: loading|| !profile.githubusername ? '' : profile.githubusername,
-            twitter: loading|| !profile.twitter ? '' : profile.twitter,
-            facebook: loading|| !profile.facebook ? '' : profile.facebook,
-            youtube: loading|| !profile.youtube ? '' : profile.youtube,
-            linkedin: loading|| !profile.linkedin ? '' : profile.linkedin,
-            instagram:loading|| !profile.instagram ? '' : profile.instagram
+            skills: loading || !profile.skills ? '' : profile.skills,
+            bio: loading || !profile.bio ? '' : profile.bio,
+            githubusername: loading || !profile.githubusername ? '' : profile.githubusername,
+            twitter: loading || !profile.twitter ? '' : profile.twitter,
+            facebook: loading || !profile.facebook ? '' : profile.facebook,
+            youtube: loading || !profile.youtube ? '' : profile.youtube,
+            linkedin: loading || !profile.linkedin ? '' : profile.linkedin,
+            instagram:loading || !profile.instagram ? '' : profile.instagram
         })
-  },[])
+        
+    }, [])
+    
+    console.log(profiles);
 
   return (
     <div className='container'>
-      <h1 className='large text-primary'>Create Your Profile</h1>
+      <h1 className='large text-primary'>Edit Your Profile</h1>
       <p className='lead'>
         <i className='fas fa-user'></i> Let's get some information to make your
         profile stand out
@@ -243,8 +245,8 @@ const EditProfile = ({ postProfile, profile:{loading,profile} }) => {
   );
 };
 
-const mapStateToProps = state => {
-    profile:state.profile
-}
+const mapStateToProps = state => ({
+    Profile:state.profile
+})
 
 export default connect(mapStateToProps, { postProfile,createProfile })(EditProfile);

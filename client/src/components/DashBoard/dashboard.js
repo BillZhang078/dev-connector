@@ -2,9 +2,9 @@ import React, { Fragment,useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import {Link} from 'react-router-dom'
 import { createProfile } from '../../actions/profile';
-import profileReducer from '../../reducers/profile';
 import Spinner from '../layouts/Spinner';
-import { createStore } from 'redux';
+import Edit from '../layouts/edit'
+
 const DashBoard = ({ createProfile, Profile: { profile, loading }, user }) => {
   console.log(profile);
   useEffect(() => {
@@ -22,12 +22,12 @@ const DashBoard = ({ createProfile, Profile: { profile, loading }, user }) => {
                     </p>
                 </div>
             }
-            {profile === null && <Fragment>
+            {profile === null ? <Fragment>
                 <p>You have not yet setup a profile, please add some info</p>
                 <Link to="/createProfile" className="btn btn-primary my-1">
                     Create Profile
         </Link>
-            </Fragment>
+            </Fragment> : <Edit/>
             }
     </Fragment>
   );

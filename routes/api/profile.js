@@ -17,9 +17,10 @@ router.get('/me', auth, async (req, res) => {
     } else {
       res.json(profile);
     }
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('server error');
+  } catch (error) {
+
+    console.error(error.message);
+      res.status(500).json({ msg: 'server error' }); //Note
   }
 });
 
@@ -64,8 +65,9 @@ router.post(
     if (company) profileField.company = company;
     if (location) profileField.location = location;
     if (status) profileField.status = status;
-    if (skills)
-      profileField.skills = skills.split(',').map((skill) => skill.trim());
+      if (skills) skills: Array.isArray(skills)
+          ? skills
+          : skills.split(',').map((skill) => ' ' + skill.trim());
     if (website) profileField.company = company;
     if (bio) profileField.bio = bio;
     if (githubusername) profileField.githubusername = githubusername;
@@ -77,27 +79,30 @@ router.post(
     if (twitter) profileField.social.twitter = twitter;
     if (instagram) profileField.social.instagram = instagram;
     if (linkedin) profileField.social.linkedin = linkedin;
-    console.log('bad');
+   
     try {
-      let profile = await Profile.findOne({ user: req.user.id });
-      if (profile) {
-        profile = await Profile.findOneAndUpdate(
-          { user: req.user.id },
-          { $set: profileField },
-          { new: true }
-        );
-        return res.json(profile);
-      }
-      profile = new Profile(profileField);
+        let profile = await Profile.findOne({ user: req.user.id });
+        console.log('bad');
+        if (profile) {
+            let profile = await Profile.findOneAndUpdate(
+                { user: req.user.id },
+                { $set: profileField },
+                { new: true, upsert: true }
+              );       
+            return res.json(profile);
+        }
+        else {
+            profile = new Profile(profileField);
 
-      await profile.save();
-      return res.json(profile);
+            await profile.save();
+            return res.json(profile);
+        }
     } catch (error) {
       console.error(error.message);
       res.status(500).send('Server Error');
     }
 
-    return res.json(profileField);
+   
   }
 );
 

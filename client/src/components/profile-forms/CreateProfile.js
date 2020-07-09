@@ -47,7 +47,7 @@ const CreateProfile = ({ postProfile }) => {
   const handlePostProfile = async (e) => {
     e.preventDefault();
     console.log('dhuhu');
-    postProfile(profile, history);
+    postProfile(profile,history);
   };
 
   return (
