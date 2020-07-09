@@ -1,9 +1,11 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { postProfile } from '../../actions/profile';
+import { postProfile, createProfile } from '../../actions/profile';
+import { applyMiddleware } from 'redux';
+import { loadUser } from '../../actions/auth';
 
-const CreateProfile = ({ postProfile }) => {
+const EditProfile = ({ postProfile, profile:{loading,profile} }) => {
   const [SocialDisplay, toggleSocialDisplay] = useState(false);
   const history = useHistory();
   const [profile, setProfile] = useState({
@@ -45,10 +47,27 @@ const CreateProfile = ({ postProfile }) => {
   };
 
   const handlePostProfile = async (e) => {
-    e.preventDefault();
-    console.log('dhuhu');
-    postProfile(profile, history);
+      e.preventDefault();
+      postProfile(profile,history);
   };
+    
+    useEffect(() => {
+        createProfile();   
+        setProfile({
+            company: loading|| !profile.company ? '' : profile.company,
+            status: loading|| !profile.status ? '' : profile.status,
+            website: loading|| !profile.website ? '' : profile.website,
+            location: loading || !profile.location ? '' : profile.location,
+            skills: loading|| !profile.skills ? '' : profile.skills,
+            bio: loading|| !profile.bio ? '' : profile.bio,
+            githubusername: loading|| !profile.githubusername ? '' : profile.githubusername,
+            twitter: loading|| !profile.twitter ? '' : profile.twitter,
+            facebook: loading|| !profile.facebook ? '' : profile.facebook,
+            youtube: loading|| !profile.youtube ? '' : profile.youtube,
+            linkedin: loading|| !profile.linkedin ? '' : profile.linkedin,
+            instagram:loading|| !profile.instagram ? '' : profile.instagram
+        })
+  },[])
 
   return (
     <div className='container'>
@@ -224,4 +243,8 @@ const CreateProfile = ({ postProfile }) => {
   );
 };
 
-export default connect(null, { postProfile })(CreateProfile);
+const mapStateToProps = state => {
+    profile:state.profile
+}
+
+export default connect(mapStateToProps, { postProfile,createProfile })(EditProfile);
