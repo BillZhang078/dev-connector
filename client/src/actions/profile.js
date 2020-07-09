@@ -2,7 +2,9 @@ import {
   CREATE_PROFILE,
   PROFILE_ERROR,
   CLEAR_PROFILE,
-  POST_PROFILE,
+    POST_PROFILE,
+    EDIT_EXPERIENCE,
+  EDIT_EDUCATION
 } from './types';
 import axios from 'axios';
 
@@ -59,3 +61,69 @@ export const clearProfile = () => (dispatch) => {
     type: CLEAR_PROFILE,
   });
 };
+
+// Add Experience
+
+export const editExperience = (formData,history) => async dispatch => {
+          
+    const config = {
+        headers: {
+            'Content-Type' : 'application/json'
+            }
+    }
+    
+    const body = JSON.stringify(formData);
+    try {
+        const response = axios.put('/api/profile/experience', body, config);
+        dispatch({
+            type: EDIT_EXPERIENCE,
+            payload: response.data
+        })
+
+        history.push('/dashboard')
+
+    } catch (err) {
+        dispatch({
+            type: PROFILE_ERROR,
+            payload: {
+                msg: err.response.statusText,
+                status: err.response.status
+            }
+         })
+
+    }
+    
+}
+
+// Add Education
+
+export const editEducation = (formData,history) => async dispatch => {
+          
+    const config = {
+        headers: {
+            'Content-Type' : 'application/json'
+            }
+    }
+    
+    const body = JSON.stringify(formData);
+    try {
+        const response = axios.put('/api/profile/experience/education', body, config);
+        dispatch({
+            type: EDIT_EDUCATION,
+            payload: response.data
+        })
+
+        history.push('/dashboard')
+
+    } catch (err) {
+        dispatch({
+            type: PROFILE_ERROR,
+            payload: {
+                msg: err.response.statusText,
+                status: err.response.status
+            }
+         })
+
+    }
+    
+}

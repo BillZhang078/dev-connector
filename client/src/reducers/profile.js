@@ -1,4 +1,4 @@
-import {CREATE_PROFILE, PROFILE_ERROR, CLEAR_PROFILE, POST_PROFILE} from '../actions/types'
+import {CREATE_PROFILE, PROFILE_ERROR, CLEAR_PROFILE, POST_PROFILE, EDIT_EDUCATION, EDIT_EXPERIENCE} from '../actions/types'
 
 const initState = {
     profile: null,
@@ -14,6 +14,8 @@ const profileReducer = (state = initState, action) => {
 
         case CREATE_PROFILE:
         case POST_PROFILE:
+        case EDIT_EXPERIENCE:
+        case EDIT_EDUCATION:
             return {
                 ...state,
                 profile: payload,
