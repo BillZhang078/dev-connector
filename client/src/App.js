@@ -8,6 +8,8 @@ import DashBoard from './components/DashBoard/dashboard'
 import CreateProfile from './components/profile-forms/CreateProfile'
 import EditProfile from './components/profile-forms/EditProfile';
 import PrivateRoute from './components/Routing/PrivateRoute'
+import EditExperience from './components/profile-forms/EditExperience';
+import EditEducation from './components/profile-forms/EditEducation';
 import { Provider } from 'react-redux';
 import store from './store'
 import Alert from './components/layouts/alert'
@@ -38,6 +40,8 @@ function App() {
           <PrivateRoute path='/dashboard' component={DashBoard} />
           <PrivateRoute path='/createProfile' component={CreateProfile} />
           <PrivateRoute path='/editProfile' component={EditProfile} />
+          <PrivateRoute path='/editExperience' component={EditExperience} />
+          <PrivateRoute path='/editEducation' component={EditEducation} />
         </Switch>
       </div>
       </div>

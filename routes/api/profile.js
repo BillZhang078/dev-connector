@@ -18,9 +18,8 @@ router.get('/me', auth, async (req, res) => {
       res.json(profile);
     }
   } catch (error) {
-
     console.error(error.message);
-      res.status(500).json({ msg: 'server error' }); //Note
+    res.status(500).json({ msg: 'server error' }); //Note
   }
 });
 
@@ -65,9 +64,10 @@ router.post(
     if (company) profileField.company = company;
     if (location) profileField.location = location;
     if (status) profileField.status = status;
-      if (skills) skills: Array.isArray(skills)
-          ? skills
-          : skills.split(',').map((skill) => ' ' + skill.trim());
+    if (skills)
+      skills: Array.isArray(skills)
+        ? skills
+        : skills.split(',').map((skill) => ' ' + skill.trim());
     if (website) profileField.company = company;
     if (bio) profileField.bio = bio;
     if (githubusername) profileField.githubusername = githubusername;
@@ -79,30 +79,27 @@ router.post(
     if (twitter) profileField.social.twitter = twitter;
     if (instagram) profileField.social.instagram = instagram;
     if (linkedin) profileField.social.linkedin = linkedin;
-   
-    try {
-        let profile = await Profile.findOne({ user: req.user.id });
-        console.log('bad');
-        if (profile) {
-            let profile = await Profile.findOneAndUpdate(
-                { user: req.user.id },
-                { $set: profileField },
-                { new: true, upsert: true }
-              );       
-            return res.json(profile);
-        }
-        else {
-            profile = new Profile(profileField);
 
-            await profile.save();
-            return res.json(profile);
-        }
+    try {
+      let profile = await Profile.findOne({ user: req.user.id });
+      console.log('bad');
+      if (profile) {
+        let profile = await Profile.findOneAndUpdate(
+          { user: req.user.id },
+          { $set: profileField },
+          { new: true, upsert: true }
+        );
+        return res.json(profile);
+      } else {
+        profile = new Profile(profileField);
+
+        await profile.save();
+        return res.json(profile);
+      }
     } catch (error) {
       console.error(error.message);
       res.status(500).send('Server Error');
     }
-
-   
   }
 );
 
@@ -178,14 +175,17 @@ router.delete('/', async (req, res) => {
 // @desc     Add profile experience
 // @acess    private
 
-router.put(
+router.post(
   '/experience',
   [
     auth,
     [
-      check('title', 'Title is required').not().isEmpty,
-      check('from', 'From is required').not().isEmpty(),
-      check('company', 'company is required').not().isEmpty(),
+      check('title', 'Title is required').not().isEmpty(),
+      check('company', 'Company is required').not().isEmpty(),
+      check('from', 'From date is required and needs to be from the past')
+        .not()
+        .isEmpty()
+        .custom((value, { req }) => (req.body.to ? value < req.body.to : true)),
     ],
   ],
   async (req, res) => {
@@ -194,10 +194,20 @@ router.put(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { title, company, from, to, current, description } = req.body;
+    const {
+      title,
+      company,
+      location,
+      from,
+      to,
+      current,
+      description,
+    } = req.body;
+
     const newExp = {
       title,
       company,
+      location,
       from,
       to,
       current,
@@ -206,16 +216,18 @@ router.put(
 
     try {
       const profile = await Profile.findOne({ user: req.user.id });
+
       profile.experience.unshift(newExp);
+
       await profile.save();
+
       res.json(profile);
     } catch (err) {
       console.error(err.message);
-      res.status(500).send('server error');
+      res.status(500).send('Server Error');
     }
   }
 );
-
 // @route    delete api/profiles/experience/:exp_id
 // @desc     delete profile experience
 // @acess    private

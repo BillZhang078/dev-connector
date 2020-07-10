@@ -6,8 +6,8 @@ const Edit = () => {
         <div className="dash-buttons">
             <Link to="/editProfile" className="btn btn-light">
             <i className="fas fa-user-circle text-primary"></i> Edit Profile</Link>
-        <Link to="add-experience.html" className="btn btn-light"><i className="fab fa-black-tie text-primary"></i> Add Experience</Link>
-        <Link to="add-education.html" className="btn btn-light"><i className="fas fa-graduation-cap text-primary"></i> Add Education</Link>
+        <Link to="/editExperience" className="btn btn-light"><i className="fab fa-black-tie text-primary"></i> Add Experience</Link>
+        <Link to="editEducation" className="btn btn-light"><i className="fas fa-graduation-cap text-primary"></i> Add Education</Link>
       </div>
     )
 }
