@@ -2,9 +2,10 @@ import React, { Fragment } from 'react';
 import Moment from 'react-moment';
 import moment from 'moment';
 import { connect } from 'react-redux';
-import { deleteExperience } from '../../actions/profile';
+import { deleteExperience, deleteEducation } from '../../actions/profile';
 
-const Experience = ({ profile, deleteExperience }) => {
+
+const Experience = ({ profile, deleteExperience,deleteEducation }) => {
   const handelExpDelete = (e, id) => {
     deleteExperience(id);
   };
@@ -59,14 +60,26 @@ const Experience = ({ profile, deleteExperience }) => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>Northern Essex</td>
-            <td className='hide-sm'>Associates</td>
-            <td className='hide-sm'>02-03-2007 - 01-02-2009</td>
-            <td>
-              <button className='btn btn-danger'>Delete</button>
-            </td>
-          </tr>
+          {
+            profile.education.map(edu => {
+              return <tr key={edu._id}>
+                <td>{edu.school}</td>
+                <td className='hide-sm'>{edu.degree}</td>
+                <td className='hide-sm'>
+                  <Moment format='YYYY/MM/DD'>{moment.utc(edu.from)}</Moment> -{' '}
+                    {edu.to === null ? (
+                      ' Now'
+                    ) : (
+                      <Moment format='YYYY/MM/DD'>{edu.utc(edu.to)}</Moment>
+                    )}
+                </td>
+              <td>
+                <button className='btn btn-danger' onClick={()=> deleteEducation(edu._id) }>Delete</button>
+              </td>
+            </tr>
+            })
+           
+          }
         </tbody>
       </table>
 
@@ -84,4 +97,4 @@ const Experience = ({ profile, deleteExperience }) => {
 //     Profile: state.profile
 // })
 
-export default connect(null, { deleteExperience })(Experience);
+export default connect(null, { deleteExperience,deleteEducation })(Experience);

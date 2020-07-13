@@ -6,6 +6,7 @@ import {
   EDIT_EDUCATION,
   EDIT_EXPERIENCE,
   DELETE_EXPERIENCE,
+  DELETE_EDUCATION,
 } from '../actions/types';
 
 const initState = {
@@ -24,6 +25,7 @@ const profileReducer = (state = initState, action) => {
     case EDIT_EXPERIENCE:
     case EDIT_EDUCATION:
     case DELETE_EXPERIENCE:
+    case DELETE_EDUCATION: 
       return {
         ...state,
         profile: payload,

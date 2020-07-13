@@ -103,7 +103,7 @@ export const editEducation = (formData, history) => async (dispatch) => {
 
   const body = JSON.stringify(formData);
   try {
-    const response = axios.post(
+    const response = await axios.post(
       'api/profile/experience/education',
       body,
       config
@@ -148,7 +148,7 @@ export const deleteExperience = (id) => async (dispatch) => {
 
 //Delete Education
 
-export const deleteEdeucation = (id) => async (dispatch) => {
+export const deleteEducation = (id) => async (dispatch) => {
   try {
     const response = await axios.delete(`api/profile/education/${id}`);
 
