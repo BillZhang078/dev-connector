@@ -234,15 +234,17 @@ router.post(
 
 router.delete('/experience/:exp_id', auth, async (req, res) => {
   try {
+    console.log('Im here')
     const profile = await Profile.findOne({ user: req.user.id });
     const id = profile.experience
       .map((item) => item.id)
       .indexOf(req.params.exp_id);
     profile.experience.splice(id, 1);
-    await pofile.save();
+    await profile.save();
+    console.log(profile);
     res.json(profile);
   } catch (err) {
-    console.error(eerr.message);
+    console.error(err.message);
     res.status(500).send('server error');
   }
 });
@@ -251,7 +253,7 @@ router.delete('/experience/:exp_id', auth, async (req, res) => {
 // @desc     add profile education
 // @acess    private
 
-router.put(
+router.post(
   '/experience/education',
   [auth, [check('school', 'School is required').not().isEmpty()]],
   async (req, res) => {
@@ -259,11 +261,11 @@ router.put(
     if (!errors.isEmpty) {
       res.status(400).json({ error: errors.array() });
     }
-
+      console.log('body:', req.body);
     const {
       school,
       degree,
-      filedofstudy,
+      fieldofstudy,
       from,
       to,
       current,
@@ -279,7 +281,7 @@ router.put(
       description,
     };
 
-    const pofile = await Profile.findOne({ user: req.user.id });
+    const profile = await Profile.findOne({ user: req.user.id });
     profile.education.unshift(newEdu);
     await profile.save();
     res.json(profile);

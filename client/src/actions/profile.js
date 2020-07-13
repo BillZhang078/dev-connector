@@ -5,6 +5,8 @@ import {
   POST_PROFILE,
   EDIT_EXPERIENCE,
   EDIT_EDUCATION,
+  DELETE_EXPERIENCE,
+  DELETE_EDUCATION
 } from './types';
 import api from '../util/api';
 import axios from 'axios';
@@ -101,13 +103,59 @@ export const editEducation = (formData, history) => async (dispatch) => {
 
   const body = JSON.stringify(formData);
   try {
-    const response = api.put('/profile/experience/education', body, config);
+    const response = axios.post(
+      'api/profile/experience/education',
+      body,
+      config
+    );
     dispatch({
       type: EDIT_EDUCATION,
       payload: response.data,
     });
 
     history.push('/dashboard');
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: {
+        msg: err.response.statusText,
+        status: err.response.status,
+      },
+    });
+  }
+};
+
+// Delete Experience
+
+export const deleteExperience = (id) => async (dispatch) => {
+  try {
+    const response = await axios.delete(`api/profile/experience/${id}`);
+
+    dispatch({
+      type: DELETE_EXPERIENCE,
+      payload: response.data,
+    });
+  } catch (err) {
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: {
+        msg: err.response.statusText,
+        status: err.response.status,
+      },
+    });
+  }
+};
+
+//Delete Education
+
+export const deleteEdeucation = (id) => async (dispatch) => {
+  try {
+    const response = await axios.delete(`api/profile/education/${id}`);
+
+    dispatch({
+      type: DELETE_EDUCATION,
+      payload: response.data,
+    });
   } catch (err) {
     dispatch({
       type: PROFILE_ERROR,
